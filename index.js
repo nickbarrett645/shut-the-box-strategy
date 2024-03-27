@@ -11,7 +11,7 @@ const runGame = () => {
     const START_SCORE = 0;
     let currentScore = START_SCORE;
     const board = {1:true, 2:true, 3:true, 4:true, 5:true, 6:true, 7:true, 8:true, 9:true};
-//TODO add scenario when you shut the box and have to reset
+
     while(notAtLimit) {
         const rollValue = rollDice(canRollMultiDice(board));
         console.info(`rollValue: ${rollValue}`);
@@ -169,5 +169,14 @@ const printBoard = (board) => {
 
 const boxIsShut = (board) => {
     return Object.entries(board).every(num => !num[1])
+}
+
+/** 
+ * Things we can strategize
+ * how many dice to role
+ * which move to make when a number of moves are available
+ */
+const strategies = {
+    first:{}
 }
 main();
