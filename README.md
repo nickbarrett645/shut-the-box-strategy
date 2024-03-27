@@ -2,5 +2,5 @@
 
 ## How to run the simulation
 ```bash
-$ npm run simulation
+npm run simulation
 ```
