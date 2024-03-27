@@ -1,0 +1,24 @@
+{
+  "name": "shut-the-box-strategy",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "simulation": "ts-node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickbarrett645/shut-the-box-strategy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nickbarrett645/shut-the-box-strategy/issues"
+  },
+  "homepage": "https://github.com/nickbarrett645/shut-the-box-strategy#readme",
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
