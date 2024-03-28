@@ -1,41 +1,61 @@
-const main = () => {
+import fs from 'fs/promises';
+
+const main = async () => {
     console.log('Shut the box game strategy simulation');
 
-    runGame();
+    await runGame();
 
 }
 
-const runGame = () => {
+const runGame = async () => {
     let notAtLimit = true;
     const LIMIT = 45;
     const START_SCORE = 0;
     let currentScore = START_SCORE;
     const board = {1:true, 2:true, 3:true, 4:true, 5:true, 6:true, 7:true, 8:true, 9:true};
+    const games = [];
+    let game = {rounds: []};
+    let round = {rolls: []};
 
     while(notAtLimit) {
+        let roll = {};
         const rollValue = rollDice(canRollMultiDice(board));
         console.info(`rollValue: ${rollValue}`);
+        roll.rollValue = rollValue;
         let moves = calculateMoves(board, rollValue);
+        roll.moves = moves;
         if(!moves.length) {
+            console.log('No available moves!');
             const roundScore = sumScore(board);
             currentScore+= roundScore;
+            round.rolls.push(roll);
+            game.rounds.push(round);
 
             if(currentScore >= LIMIT) {
                 notAtLimit = false;
+                games.push(game);
+                await writeData('test.json', games); 
             } else {
                 resetBoard(board);
+                round = getNewRound();
             }
         } else {
-            makeMove(board,moves);
+            makeMove(board,moves, roll);
+            round.rolls.push(roll)
             printBoard(board);
             if(boxIsShut(board)) {
                 console.info('Box is shut!');
                 resetBoard(board);
+                round = getNewRound();
             }
         }
 
         console.info(currentScore);
     }
+}
+
+const getNewRound = () => {
+    return {rolls: []};
 }
 
 const rollDice = (multiDice = false) => {
@@ -50,7 +70,9 @@ const sumScore = (board) => {
     return Object.entries(board).filter(num => num[1]).reduce((acc, curr) => acc+Number.parseInt(curr, 10),0)
 }
 
-const makeMove = (board, moves) => {
+const makeMove = (board, moves, roll) => {
+    console.log(`Move: ${moves[0]}`);
+    roll.moveMade = moves[0];
     moves[0].forEach(num => board[num] = false)
     return board;
 }
@@ -164,11 +186,33 @@ const calculateMoves = (board, sum) => {
 }
 
 const printBoard = (board) => {
-    console.log(board);
+    let boardCharacters = ['|'];
+    Object.entries(board).forEach(num => {
+        if(num[1]) {
+            boardCharacters.push(` ${num[0]} |`);
+        } else {
+            boardCharacters.push(' X |');
+        }
+    });
+
+    const boardStr = boardCharacters.join('');
+    console.log(boardStr);
+
 }
+
 
 const boxIsShut = (board) => {
     return Object.entries(board).every(num => !num[1])
+}
+
+const writeData = async (fileName, data) => {
+    try {
+        await fs.writeFile(fileName, JSON.stringify(data), 'utf8');
+        console.info('Successfully wrote file');
+    } catch(err) {
+        console.log('Failed to write file');
+        console.error(err);
+    }
 }
 
 /** 
