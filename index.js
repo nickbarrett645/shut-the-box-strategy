@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
-
+import path from 'path';
+const DIR_PATH = path.join(process.cwd(), 'data');
 const main = async () => {
     console.log('Shut the box game strategy simulation');
 
@@ -206,13 +207,21 @@ const boxIsShut = (board) => {
 }
 
 const writeData = async (fileName, data) => {
+    console.log('here');
     try {
-        await fs.writeFile(fileName, JSON.stringify(data), 'utf8');
+        await fs.access(DIR_PATH);
+        console.info(`${DIR_PATH} exists`);
+    } catch(err) {
+        await fs.mkdir(DIR_PATH);
+    }
+    try {
+        await fs.writeFile(path.join(DIR_PATH, fileName), JSON.stringify(data), 'utf8');
         console.info('Successfully wrote file');
     } catch(err) {
         console.log('Failed to write file');
         console.error(err);
     }
+        console.log('here too');
 }
 
 /** 
