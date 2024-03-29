@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "simulation": "ts-node index.js"
+    "simulation": "ts-node index.js",
+    "analysis": "ts-node analyze.js"
   },
   "repository": {
     "type": "git",
