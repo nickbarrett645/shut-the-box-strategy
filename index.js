@@ -207,7 +207,6 @@ const boxIsShut = (board) => {
 }
 
 const writeData = async (fileName, data) => {
-    console.log('here');
     try {
         await fs.access(DIR_PATH);
         console.info(`${DIR_PATH} exists`);
@@ -221,7 +220,6 @@ const writeData = async (fileName, data) => {
         console.log('Failed to write file');
         console.error(err);
     }
-        console.log('here too');
 }
 
 /** 

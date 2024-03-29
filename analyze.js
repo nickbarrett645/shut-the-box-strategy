@@ -4,7 +4,13 @@ import path from 'path'
 const DIR_PATH = path.join(process.cwd(), 'data');
 
 const readFile = async (filename) => {
-    return await fs.readFile(path.join(DIR_PATH, filename), 'utf8');
+    try {
+        await fs.access(path.join(DIR_PATH, filename));
+        return await fs.readFile(path.join(DIR_PATH, filename), 'utf8');
+    } catch(err) {
+        console.error('Data file not found. Run: npm run simulation');
+        throw Error('Data file not found');
+    }
 }
 
 
@@ -20,8 +26,12 @@ const runAnalysis = (games) => {
 }
 
 const main = async () => {
-    const games = JSON.parse(await readFile('test.json'));
-    runAnalysis(games);
+    try {
+        const games = JSON.parse(await readFile('test.json'));
+        runAnalysis(games);
+    } catch(err) {
+        console.error('Failed to analyze data. Exiting');
+    }
 }
 
 main();

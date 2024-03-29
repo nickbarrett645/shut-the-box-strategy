@@ -5,6 +5,11 @@
 npm run simulation
 ```
 
+## How to run the analysis
+```bash
+npm run analysis
+```
+
 ## Basic Data Analysis with jq
 If you don't have [jq](https://jqlang.github.io/jq/) install it
 
